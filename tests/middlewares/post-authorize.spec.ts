@@ -7,7 +7,6 @@ async function testMiddleware(ruleResponse: any){
 
     let err;
     const postAuthorizeMiddleware = postAuthorize(() => ruleResponse)
-    console.log('postAuthorizeMiddleware', postAuthorizeMiddleware);
     
     try{
         await postAuthorizeMiddleware(req, res, next);

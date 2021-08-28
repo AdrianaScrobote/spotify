@@ -10,7 +10,6 @@ async function testMiddleware(ruleResponse: any){
 
     let err;
     const getArtistMiddleware = getArtist(() => ruleResponse)
-    console.log('getArtistMiddleware', getArtistMiddleware);
     
     try{
         await getArtistMiddleware(req, res, next);

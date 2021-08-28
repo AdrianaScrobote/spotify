@@ -1,0 +1,103 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "Spotify",
+        "description": "Documentação da API Spotify",
+        "version": "1.0.0"
+    },
+    "basePath": "/",
+    "paths": {
+        "/spotify/authorize": {
+            "post": {
+                "summary": "Faz autenticação com API do Spotify.",
+                "tags": ["authorize"],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Retorno de API autenticada"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/spotify/search/": {
+            "get": {
+                "summary": "Realiza uma pesquisa de acordo com o tipo informado.",
+                "tags": ["search"],
+                
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "type",
+                        "required": true,
+                        "type": "string",
+                        "example": "artist"
+                    },
+                    {
+                        "in": "query",
+                        "name": "search",
+                        "required": true,
+                        "type": "string",
+                        "example": "eminem"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retorno da pesquisa"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/spotify/artist/{id}": {
+            "get": {
+                "summary": "Busca dados de um artista.",
+                "tags": ["artist"],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "type": "string",
+                        "example": "1Xyo4u8uXC1ZmMpatF05PJ"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Dados de um artista"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/spotify/artist-albums/{id}": {
+            "get": {
+                "summary": "Busca dados de álbuns de um artista.",
+                "tags": ["artist-albums"],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "type": "string",
+                        "example": "1Xyo4u8uXC1ZmMpatF05PJ"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Dados de álbuns de um artista"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        }
+    }
+}

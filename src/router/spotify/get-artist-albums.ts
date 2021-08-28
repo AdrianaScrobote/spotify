@@ -14,8 +14,6 @@ export default (getArtistAlbumsRule: any) =>
       } else {
         res.status(StatusCodes.OK).json(artistData);
       }
-
-      console.log('res', res);
       
       next();
     } catch (error) {

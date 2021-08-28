@@ -14,8 +14,6 @@ export default (getArtistRule: any) =>
       } else {
         res.status(StatusCodes.OK).json(artistData);
       }
-
-      console.log("artistData", artistData);
       
       next();
     } catch (error) {

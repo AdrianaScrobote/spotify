@@ -15,8 +15,8 @@ Foi criada uma API backend, com endpoints que consomem dados da API do Spotify.
 
 ### Informações importantes sobre a API:
 
-- Será criada uma documentação técnica para a API utilizando o Swagger
-- Para consultar exemplos de requests e responses pode ser usada a documentação técnica informada (quando for criada). No link da documentação, também é possível testar requisições.
+- A API tem uma documentação técnica disponível no link: http://localhost:3333/docs/
+- Para consultar exemplos de requests e responses pode ser usada a documentação técnica informada. No link da documentação, também é possível testar requisições.
 
 ### Endpoints criados:
 
