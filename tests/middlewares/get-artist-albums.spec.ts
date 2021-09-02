@@ -1,53 +1,66 @@
 import getArtistAlbums from "../../src/router/spotify/get-artist-albums";
 import generateExpressMock from "../doubles/spys/express-spy";
-import mocks from '../mocks/get-artist-albums'
-
-async function testMiddleware(ruleResponse: any){
-    const {req, res, next} = generateExpressMock({
-        headers: {},
-        params: { id: '12345' },
-    })
-
-    let err;
-    const getArtistAlbumsMiddleware = getArtistAlbums(() => ruleResponse)
-    
-    try{
-        await getArtistAlbumsMiddleware(req, res, next);
-    } catch(error){
-        err = error;
-    }
-    
-    expect(err).toBeUndefined();
-    const nextResponse = next.mock.results.pop()?.value;
-    return nextResponse;
-}
+import mocks from '../mocks/get-artist-albums';
 
 const { successResponse } = mocks;
 
 describe('test description', () => {
-    it('should successfully return with 200 if request is OK', async () => {
-        const { body, status, err } = await testMiddleware(Promise.resolve(successResponse))
-        
-        expect(err).toBeUndefined();
-        expect(body).toBeDefined();
-        expect(status).toBe(200);
-    })
 
-    it('should successfully return with 204 if artist album does not exist', async () => {
-        const { body, status, err } = await testMiddleware(Promise.resolve())
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
+    const makeSut = () => {
+
+        const {req, res, next} = generateExpressMock({
+            headers: {},
+            params: { id: '12345' },
+        })
+        const sut = getArtistAlbums;
+    
+        return {
+          sut,
+          req,
+          res,
+          next,
+        };
+    };
+
+    it('should successfully return with 200 if request is OK', async () => {
+        const { sut, req, res, next } = makeSut();
+    
+        const getArtistAlbumsRule = () => successResponse;
+
+        await sut(getArtistAlbumsRule)(req, res, next); 
         
-        expect(err).toBeTruthy();
-        expect(body).toBeUndefined();
-        expect(status).toBe(204);
-    })
+        expect(res.statusCode).toBe(200);
+        expect(res).toHaveProperty('body');
+    });
+
+    it('should successfully return with 204 if artist albums does not exist', async () => {
+        const { sut, req, res, next } = makeSut();
+    
+        const getArtistAlbumsRule = () => {};
+    
+        await sut(getArtistAlbumsRule)(req, res, next); 
+        
+        expect(res.statusCode).toBe(204);
+        expect(res).not.toHaveProperty('body');
+    });
+
 
     it('should fails if the rule rejects an error', async () => {
-        const errorMessage = 'Test error message';
-        const { err } = await testMiddleware(Promise.reject(new Error(errorMessage)));
+
+        const { sut, req, res, next } = makeSut();
     
-        expect(err).toBeDefined();
-        expect(err).toBeInstanceOf(Error);
-        expect(err.message).toBe('ERRO::: Na rota /spotify/artist-albums');
+        const getArtistAlbumsRule = () => {throw "error"};
+        
+        await sut(getArtistAlbumsRule)(req, res, next); 
+        
+        const nextResponse = next.mock.results.pop()?.value;
+
+        expect(nextResponse.err).toBeDefined();
+        expect(nextResponse.err).toBeInstanceOf(Error);
+        expect(nextResponse.err.message).toBe('ERRO::: Na rota /spotify/artist-albums');
     });
-    
 })

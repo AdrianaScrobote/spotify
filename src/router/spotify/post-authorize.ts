@@ -1,4 +1,3 @@
-//import { ServiceError } from '@pub-libs/civ-errors-lib';
 import { StatusCodes } from 'http-status-codes';
 import { NextFunction, Request, Response } from "express";
 
